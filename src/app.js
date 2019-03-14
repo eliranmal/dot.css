@@ -39,12 +39,17 @@
       .join(',');
     // console.log('>>> box shadow:', boxShadow);
 
-    paper.style.boxShadow = boxShadow;
+    const pixel = document.createElement('div');
+    pixel.style.boxShadow = boxShadow;
+    pixel.style.height = '1px';
+    pixel.style.width = '1px';
+    pixel.style.backgroundColor = 'transparent';
+
+    paper.style.width = `${width}px`;
+    paper.style.height = `${height}px`;
     paper.style.position = 'relative';
     paper.style.left = `calc(50% - ${width / 2}px)`;
-    paper.style.height = '1px';
-    paper.style.width = '1px';
-    paper.style.backgroundColor = 'transparent';
+    paper.appendChild(pixel);
   }
 
   function chunks(chunkSize, arr) {
@@ -64,7 +69,7 @@
       .addEventListener('click', () => paintCss(img, paper, {
         // width: 500,
         // height: 100,
-        blur: 5,
+        // blur: 5,
       }), false);
   }
 
