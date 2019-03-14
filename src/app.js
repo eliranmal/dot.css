@@ -62,8 +62,9 @@
 
     d.getElementById('paint-btn')
       .addEventListener('click', () => paintCss(img, paper, {
-        width: 600,
-        height: 50,
+        // width: 500,
+        // height: 100,
+        blur: 5,
       }), false);
   }
 
