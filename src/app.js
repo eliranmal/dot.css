@@ -47,6 +47,7 @@
 
     paper.style.width = `${width}px`;
     paper.style.height = `${height}px`;
+    paper.innerHTML = '';
     paper.appendChild(pixel);
   }
 
@@ -65,7 +66,7 @@
 
     d.getElementById('paint-btn')
       .addEventListener('click', () => paintCss(img, paper, {
-        // width: 500,
+        // width: 100,
         // height: 100,
         // blur: 5,
       }), false);
