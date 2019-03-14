@@ -6,3 +6,7 @@ body {
 #paper {
     display: inline-block;
 }
+
+#paint-btn {
+    margin: 30px 0;
+}
