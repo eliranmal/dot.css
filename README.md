@@ -1,6 +1,6 @@
 # dot.css
 
-> a css-only single-element image renderer! at last!
+> box-shadow as pixels
 
 
 ### wat
