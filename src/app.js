@@ -5,6 +5,8 @@
     y = 0,
     width = image.width,
     height = image.height,
+    dotWidth = 1,
+    dotHeight = 1,
     blur = 0,
   } = {}) {
 
@@ -28,8 +30,9 @@
     // console.log('>>> rgb values:', rgbValues);
 
     const offsetMatrixPoints = chunkedData.map((pixelChunk, i) => ({
-      x: i % width,
-      y: (i - (i % width)) / width,
+      // calc coordinates and add offset to avoid the box-shadow being hidden
+      x: (i % width) * dotWidth + dotWidth,
+      y: ((i - (i % width)) / width) * dotHeight + dotHeight,
     }));
     // console.log('>>> pixel offset matrix as points:',
     // JSON.stringify(offsetMatrixPoints, null, 2));
@@ -41,12 +44,14 @@
 
     const pixel = document.createElement('div');
     pixel.style.boxShadow = boxShadow;
-    pixel.style.height = '1px';
-    pixel.style.width = '1px';
-    pixel.style.backgroundColor = 'transparent';
+    pixel.style.width = `${dotWidth}px`;
+    pixel.style.height = `${dotHeight}px`;
+    pixel.style.position = 'relative';
+    pixel.style.top = `-${dotHeight}px`;
+    pixel.style.left = `-${dotWidth}px`;
 
-    paper.style.width = `${width}px`;
-    paper.style.height = `${height}px`;
+    paper.style.width = `${width * dotWidth}px`;
+    paper.style.height = `${height * dotHeight}px`;
     paper.innerHTML = '';
     paper.appendChild(pixel);
   }
@@ -66,9 +71,11 @@
 
     d.getElementById('paint-btn')
       .addEventListener('click', () => paintCss(img, paper, {
-        // width: 100,
-        // height: 100,
-        // blur: 5,
+        width: 16,
+        height: 16,
+        dotWidth: 10,
+        dotHeight: 10,
+        blur: 0,
       }), false);
   }
 
