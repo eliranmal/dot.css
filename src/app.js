@@ -47,8 +47,6 @@
 
     paper.style.width = `${width}px`;
     paper.style.height = `${height}px`;
-    paper.style.position = 'relative';
-    paper.style.left = `calc(50% - ${width / 2}px)`;
     paper.appendChild(pixel);
   }
 

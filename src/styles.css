@@ -1,5 +1,8 @@
 
 body {
-    /*height: 200vh;*/
-    overflow: auto;
+    text-align: center;
+}
+
+#paper {
+    display: inline-block;
 }
