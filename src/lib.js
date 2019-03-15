@@ -1,6 +1,6 @@
-(function (d, exports) {
+(function (d, ns) {
 
-  function paintCss(image = {}, paper = {}, {
+  function paint(image = {}, paper = {}, {
     x = 0,
     y = 0,
     width = image.width,
@@ -42,18 +42,26 @@
       .join(',');
     // console.log('>>> box shadow:', boxShadow);
 
-    const pixel = document.createElement('div');
-    pixel.style.boxShadow = boxShadow;
-    pixel.style.width = `${dotWidth}px`;
-    pixel.style.height = `${dotHeight}px`;
-    pixel.style.position = 'relative';
-    pixel.style.top = `-${dotHeight}px`;
-    pixel.style.left = `-${dotWidth}px`;
-
     paper.style.width = `${width * dotWidth}px`;
     paper.style.height = `${height * dotHeight}px`;
     paper.innerHTML = '';
+    const pixel = createSeedPixelElement(dotWidth, dotHeight, boxShadow);
     paper.appendChild(pixel);
+  }
+
+  function painter(image = {}, paper = {}) {
+    return paint.bind(null, image, paper);
+  }
+
+  function createSeedPixelElement(width, height, boxShadow) {
+    const pixel = document.createElement('div');
+    pixel.style.position = 'relative';
+    pixel.style.top = `-${height}px`;
+    pixel.style.left = `-${width}px`;
+    pixel.style.width = `${width}px`;
+    pixel.style.height = `${height}px`;
+    pixel.style.boxShadow = boxShadow;
+    return pixel;
   }
 
   function chunks(chunkSize, arr) {
@@ -65,6 +73,7 @@
   }
 
 
-  exports.paint = paintCss;
+  ns.paint = paint;
+  ns.painter = painter;
 
 }(document, window.__cssCanvas = window.__cssCanvas || {}));
