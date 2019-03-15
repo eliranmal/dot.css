@@ -96,6 +96,7 @@ main {
   margin-left: 300px;
 }
 
-main img {
+main div {
+  position: absolute;
   box-shadow: 2px 0 22px #000;
 }
