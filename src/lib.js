@@ -1,5 +1,6 @@
 (function (d, ns) {
 
+  // todo - pass image OR path
   function paint(image = {}, paper = {}, {
     width = image.width,
     height = image.height,
@@ -40,10 +41,11 @@
       .join(',');
     // console.log('>>> box shadow:', boxShadow);
 
+    const pixel = createSeedPixelElement(dotWidth, dotHeight, boxShadow);
+
     paper.style.width = `${width * dotWidth}px`;
     paper.style.height = `${height * dotHeight}px`;
     paper.innerHTML = '';
-    const pixel = createSeedPixelElement(dotWidth, dotHeight, boxShadow);
     paper.appendChild(pixel);
   }
 

@@ -22,7 +22,7 @@ header {
 body,
 h1,
 button {
-  font: 1rem "trebuchet ms", "Helvetica Neue", Arial, sans-serif;
+  font: 1rem consolas, courier, monospace;
 }
 
 body,
@@ -42,6 +42,16 @@ label {
   font-size: .7rem;
 }
 
+input[type="range"] {
+  cursor: pointer;
+  transition: opacity 1s;
+}
+
+input[type="range"]:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
 
 /* layout */
 
@@ -59,13 +69,18 @@ header {
 header > * {
   display: block;
   width: 100%;
+  margin: 0 0 30px;
+}
+
+header > :last-child {
+  margin-bottom: 0;
 }
 
 header > h1,
 header > button {
   height: 60px;
   line-height: 60px;
-  margin: 30px 0;
+  margin-bottom: 60px;
 }
 
 header > h1 {
@@ -78,7 +93,7 @@ header > button {
 }
 
 header > input {
-  margin: 0 0 10px;
+  margin-bottom: 10px;
 }
 
 header > label {
@@ -96,7 +111,20 @@ main {
   margin-left: 300px;
 }
 
-main div {
+main > div {
   position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #3f3f3f;
+}
+
+#source,
+#paper {
   box-shadow: 2px 0 22px #000;
 }
+
+#source {
+  justify-content: flex-start;
+}
+
