@@ -1,6 +1,6 @@
 # dot.css
 
-> box-shadow as pixels
+> render images with box-shadow pixels!
 
 
 ### wat
