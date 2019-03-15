@@ -12,4 +12,4 @@
       blur: 0,
     }), false);
 
-}(document, window.__cssCanvas = window.__cssCanvas || {}));
+}(document, window.__dotCss = window.__dotCss || {}));

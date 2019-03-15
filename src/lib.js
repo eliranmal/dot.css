@@ -76,4 +76,4 @@
   ns.paint = paint;
   ns.painter = painter;
 
-}(document, window.__cssCanvas = window.__cssCanvas || {}));
+}(document, window.__dotCss = window.__dotCss || {}));
