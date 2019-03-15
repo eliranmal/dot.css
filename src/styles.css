@@ -12,7 +12,6 @@ body {
 body {
   margin: 0;
   padding: 0;
-  background-color: #555;
 }
 
 body,
@@ -23,17 +22,33 @@ header {
 body,
 h1,
 button {
-  color: #ccc;
   font: 1rem "trebuchet ms", "Helvetica Neue", Arial, sans-serif;
+}
+
+body,
+button {
+  color: #ccc;
+  background-color: #555;
+}
+
+button {
+  padding: 0 1em;
+  border: 0 none;
+  outline: 0 none;
+  cursor: pointer;
 }
 
 label {
   font-size: .7rem;
 }
 
+
+/* layout */
+
 header {
-  float: left;
-  width: 30%;
+  position: absolute;
+  z-index: 1;
+  width: 300px;
   height: 100%;
   min-width: 300px;
   padding: 30px;
@@ -50,7 +65,16 @@ header > h1,
 header > button {
   height: 60px;
   line-height: 60px;
-  margin: 0 0 30px;
+  margin: 30px 0;
+}
+
+header > h1 {
+  height: 60px;
+  line-height: 60px;
+}
+
+header > button {
+  box-shadow: 0 1px 16px #000;
 }
 
 header > input {
@@ -63,26 +87,15 @@ header > label {
   margin: 0;
 }
 
-header > h1 {
-  height: 60px;
-  line-height: 60px;
-}
-
-header > button {
-  margin: 60px 0;
-  padding: 0 1em;
-  border: 1px solid #ddd;
-  background: transparent none;
-  box-shadow: 0 1px 16px #000;
-  outline: 0 none;
-  cursor: pointer;
-}
-
 
 main {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100%;
+  margin-left: 300px;
 }
 
+main img {
+  box-shadow: 2px 0 22px #000;
+}
