@@ -1,12 +1,88 @@
 
+html {
+  font-size: 30px;
+}
+
+html,
 body {
-  text-align: center;
+  width: 100vw;
+  height: 100vh;
 }
 
-#paper {
-  display: inline-block;
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #555;
 }
 
-#paint-btn {
-  margin: 30px 0;
+body,
+header {
+  box-sizing: border-box;
 }
+
+body,
+h1,
+button {
+  color: #ccc;
+  font: 1rem "trebuchet ms", "Helvetica Neue", Arial, sans-serif;
+}
+
+label {
+  font-size: .7rem;
+}
+
+header {
+  float: left;
+  width: 30%;
+  height: 100%;
+  min-width: 300px;
+  padding: 30px;
+  background-color: #3f3f3f;
+  box-shadow: 2px 0 22px #000;
+}
+
+header > * {
+  display: block;
+  width: 100%;
+}
+
+header > h1,
+header > button {
+  height: 60px;
+  line-height: 60px;
+  margin: 0 0 30px;
+}
+
+header > input {
+  margin: 0 0 10px;
+}
+
+header > label {
+  height: 40px;
+  line-height: 40px;
+  margin: 0;
+}
+
+header > h1 {
+  height: 60px;
+  line-height: 60px;
+}
+
+header > button {
+  margin: 60px 0;
+  padding: 0 1em;
+  border: 1px solid #ddd;
+  background: transparent none;
+  box-shadow: 0 1px 16px #000;
+  outline: 0 none;
+  cursor: pointer;
+}
+
+
+main {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+

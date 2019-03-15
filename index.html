@@ -6,13 +6,22 @@
     <link rel="stylesheet" type="text/css" href="./src/styles.css">
   </head>
   <body>
-    <img id="source-image" src="./assets/canvas-stand-489x500.jpg">
-    <!--<img id="source-image" src="./assets/canvas-stand-888x864.jpg">-->
-    <!--<img id="source-image" src="./assets/jquery.minicolors.png">-->
-    <div>
+    <header>
+      <h1>dot.css</h1>
       <button id="paint-btn">paint</button>
-    </div>
-    <div id="paper"></div>
+      <label for="crossfade-slider">crossfade</label><input id="crossfade-slider" type="range">
+      <label for="width-slider">width</label><input id="width-slider" type="range">
+      <label for="height-slider">height</label><input id="height-slider" type="range">
+      <label for="dotWidth-slider">dotWidth</label><input id="dotWidth-slider" type="range">
+      <label for="dotHeight-slider">dotHeight</label><input id="dotHeight-slider" type="range">
+      <label for="blur-slider">blur</label><input id="blur-slider" type="range">
+    </header>
+    <main>
+      <img id="source-image" src="./assets/canvas-stand-489x500.jpg">
+      <!--<img id="source-image" src="./assets/canvas-stand-888x864.jpg">-->
+      <!--<img id="source-image" src="./assets/jquery.minicolors.png">-->
+      <div id="paper"></div>
+    </main>
     <script src="./src/lib.js"></script>
     <script src="./src/app.js"></script>
   </body>

@@ -1,8 +1,6 @@
 (function (d, ns) {
 
   function paint(image = {}, paper = {}, {
-    x = 0,
-    y = 0,
     width = image.width,
     height = image.height,
     dotWidth = 1,
