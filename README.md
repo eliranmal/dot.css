@@ -2,6 +2,8 @@
 
 > render images with box-shadow pixels!
 
+_**[live][1]**_
+
 
 ### wat
 
@@ -22,3 +24,7 @@ i dunno. you figure it out. and let me know, seriously.
 1. maybe change stuff, like pixel size and output image width
 1. build a `box-shadow` multivalue, using the altered data
 
+
+
+
+[1]: https://eliranmal.github.io/dot.css/
