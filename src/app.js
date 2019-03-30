@@ -3,49 +3,88 @@
   const img = d.getElementById('source-image');
   const paper = d.getElementById('paper');
   const source = d.getElementById('source');
-  const target = d.getElementById('target');
-  // const target = paper;
-  const paintBtn = d.getElementById('paint-btn');
-  const sliders = [...d.querySelectorAll('input[type="range"]')];
-  const crossfadeSlider = d.getElementById('crossfade-slider');
+  const subpixelRenderingSwitch = d.getElementById('subpixel-rendering-switch');
+  const sliders = [...d.querySelectorAll('input[type="range"]')]
+    .reduce((accum, node) => {
+      accum[node.id.replace('-slider', '')] = node;
+      return accum;
+    }, {});
 
-  let sourceBBox;
+  const painter = ns.painter(img, paper);
+  const sourceBBox = source.getBoundingClientRect();
 
-  source.style.overflow = 'hidden';
-  source.style.zIndex = '1';
+  let painted = false,
+    pixelate = sliders.pixelate.value,
+    blur = sliders.blur.value,
+    noSubpixelRendering = !subpixelRenderingSwitch.checked;
 
-  target.style.width = `${img.width}px`;
-  target.style.height = `${img.height}px`;
-
-  sliders.forEach((slider) => slider.setAttribute('disabled', 'disabled'));
-
-  crossfadeSlider.addEventListener('input', ({ target: { value } }) => {
-    if (!sourceBBox) {
-      return false;
-    }
+  bindDebounced(sliders.crossfade, 'input', ({ target: { value } }) => {
     const width = sourceBBox.width / 100 * value;
     source.style.width = `${width}px`;
     source.style.marginLeft = `${(sourceBBox.width - width) / 2 * -1}px`;
+  }, 10);
+
+  bindDebounced(sliders.pixelate, 'input', ({ target: { value } }) => {
+    pixelate = value;
+    paint();
   });
 
-  paintBtn.addEventListener('click', () => {
-    const sizeInPixels = 22;
-    ns.paint(img, paper, {
-      width: sizeInPixels,
-      height: sizeInPixels,
-      dotWidth: img.width / sizeInPixels,
-      dotHeight: img.height / sizeInPixels,
-      blur: 0,
+  bindDebounced(sliders.blur, 'input', ({ target: { value } }) => {
+    blur = value;
+    paint();
+  });
+
+  bind(subpixelRenderingSwitch, 'change', ({ target: { checked } }) => {
+    noSubpixelRendering = !checked;
+    paint();
+  });
+
+  sliders.crossfade.setAttribute('disabled', 'disabled');
+
+  paint();
+
+
+  function paint() {
+
+    painter({
+      pixelate,
+      blur,
+      noSubpixelRendering,
     });
 
-    if (!sourceBBox) {
-      // remove the initially disabled state
-      sliders.forEach((slider) => slider.removeAttribute('disabled'));
+    if (!painted) {
+      painted = true;
+      sliders.crossfade.removeAttribute('disabled');
     }
-    sourceBBox = source.getBoundingClientRect();
     // trigger a change to hide the source image
-    crossfadeSlider.dispatchEvent(new Event('input'));
+    sliders.crossfade.dispatchEvent(new Event('input'));
+  }
 
-  }, false);
+  function bind(node, event, fn) {
+    node.addEventListener(event, fn, false);
+  }
+
+  function bindDebounced(node, event, fn, delay = 200) {
+    node.addEventListener(event, debounce(fn, delay), false);
+  }
+
+  // Returns a function, that, as long as it continues to be invoked, will not
+  // be triggered. The function will be called after it stops being called for
+  // N milliseconds. If `immediate` is passed, trigger the function on the
+  // leading edge, instead of the trailing.
+  function debounce(func, wait, immediate) {
+    var timeout;
+    return function () {
+      var context = this, args = arguments;
+      var later = function () {
+        timeout = null;
+        if (!immediate) func.apply(context, args);
+      };
+      var callNow = immediate && !timeout;
+      clearTimeout(timeout);
+      timeout = setTimeout(later, wait);
+      if (callNow) func.apply(context, args);
+    };
+  }
 
 }(document, window.__dotCss = window.__dotCss || {}));

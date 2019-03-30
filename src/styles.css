@@ -1,4 +1,13 @@
 
+:root {
+  /* fixme - i think i can't do the viewport-width thing with min-width, must state fixed size in width only */
+  /* fixme - how to still state viewport-width and still keep the main content centered? */
+  /*--sidebar-width: 33vw;*/
+  --sidebar-width: 350px;
+  --sidebar-width-collapsed: 70px;
+  --sidebar-transition: all 120ms ease-out;
+}
+
 html {
   font-size: 30px;
 }
@@ -21,7 +30,8 @@ header {
 
 body,
 h1,
-button {
+button,
+input {
   font: 1rem consolas, courier, monospace;
 }
 
@@ -42,64 +52,135 @@ label {
   font-size: .7rem;
 }
 
+input:disabled {
+  opacity: .3;
+  cursor: not-allowed;
+}
+
 input[type="range"] {
   cursor: pointer;
   transition: opacity 1s;
 }
 
-input[type="range"]:disabled {
-  opacity: .3;
-  cursor: not-allowed;
+input[type=checkbox] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  display: inline-block;
+  width: 30px;
+  height: 30px;
+  margin: 0;
+  padding: 0;
+  outline: 0 none;
+  border-radius: 50%;
+  text-align: center;
+  font: bold 20px/32px "Courier New", monospace;
+  color: #3f3f3f;
+  background-color: deeppink;
+  cursor: pointer;
+}
+
+input[type=checkbox]:hover {
+  color: #ccc;
+}
+
+input[type=checkbox]:after {
+  content: '\2718';
+  display: inline-block;
+}
+
+input[type=checkbox]:checked:after {
+  content: '\2714';
 }
 
 
 /* layout */
 
+input[type="checkbox"].close {
+  position: absolute;
+  z-index: 3;
+  top: 20px;
+  left: calc(var(--sidebar-width) - 50px);
+  transition: var(--sidebar-transition);
+}
+
+input[type="checkbox"].close:checked {
+  left: 20px;
+}
+
+input[type="checkbox"].close:after {
+  content: '\2716';
+}
+
+input[type="checkbox"].close:checked:after {
+  content: '\2022';
+}
+
+input[type="checkbox"].close:checked + header {
+  left: 0;
+  width: var(--sidebar-width-collapsed);
+  min-width: var(--sidebar-width-collapsed);
+}
+
+input[type="checkbox"].close:checked + header > * {
+  opacity: 0;
+}
+
+input[type="checkbox"].close:checked + header + main {
+  margin-left: var(--sidebar-width-collapsed);
+}
+
+
 header {
   position: absolute;
-  z-index: 1;
-  width: 300px;
+  z-index: 2;
   height: 100%;
-  min-width: 300px;
-  padding: 30px;
+  overflow: hidden;
+  padding: 35px;
+  width: var(--sidebar-width);
+  min-width: var(--sidebar-width);
+  transition: var(--sidebar-transition);
   background-color: #3f3f3f;
   box-shadow: 2px 0 22px #000;
 }
 
-header > * {
+header label,
+header input {
   display: block;
   width: 100%;
-  margin: 0 0 30px;
+  margin: 0 0 40px;
 }
 
-header > :last-child {
+header :last-child {
   margin-bottom: 0;
 }
 
-header > h1,
-header > button {
-  height: 60px;
-  line-height: 60px;
-  margin-bottom: 60px;
+header h1,
+header button {
+  height: 80px;
+  line-height: 80px;
+  margin-bottom: 40px;
 }
 
-header > h1 {
-  height: 60px;
-  line-height: 60px;
-}
-
-header > button {
+header button {
   box-shadow: 0 1px 16px #000;
 }
 
-header > input {
+header input {
   margin-bottom: 10px;
 }
 
-header > label {
-  height: 40px;
-  line-height: 40px;
+header label {
+  position: relative;
+  height: 60px;
+  line-height: 60px;
   margin: 0;
+}
+
+header label input[type="checkbox"] {
+  position: absolute;
+  top: 15px;
+  right: 0;
 }
 
 
@@ -108,10 +189,20 @@ main {
   align-items: center;
   justify-content: center;
   height: 100%;
-  margin-left: 300px;
+  margin-left: var(--sidebar-width);
+  transition: var(--sidebar-transition);
 }
 
-main > div {
+/* helpers */
+
+.dot {
+  color: deeppink;
+}
+
+/* components */
+
+#source,
+#target {
   position: absolute;
   display: flex;
   align-items: center;
@@ -125,6 +216,39 @@ main > div {
 }
 
 #source {
+  z-index: 1;
   justify-content: flex-start;
+  overflow: hidden;
 }
 
+input[id$="-slider"] {
+  position: relative;
+  margin-bottom: 1rem;
+}
+
+input[id$="-slider"]:before,
+input[id$="-slider"]:after {
+  position: absolute;
+  top: 1rem;
+  line-height: 0;
+  font-size: .4rem;
+  color: #aaa;
+}
+
+input[id$="-slider"]:before {
+  content: attr(min);
+  left: 0;
+}
+
+input[id$="-slider"]:after {
+  content: attr(max);
+  right: 0;
+}
+
+#crossfade-slider:before {
+  content: 'input';
+}
+
+#crossfade-slider:after {
+  content: 'output';
+}

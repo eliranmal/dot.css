@@ -6,27 +6,29 @@
     <link rel="stylesheet" type="text/css" href="./src/styles.css">
   </head>
   <body>
+    <input id="menu-switch" class="close" type="checkbox">
     <header>
-      <h1>dot.css</h1>
-      <button id="paint-btn">paint</button>
-      <label for="crossfade-slider">crossfade</label><input id="crossfade-slider" type="range" value="0">
-      <label for="width-slider">width</label><input id="width-slider" type="range">
-      <label for="height-slider">height</label><input id="height-slider" type="range">
-      <label for="dotWidth-slider">dotWidth</label><input id="dotWidth-slider" type="range">
-      <label for="dotHeight-slider">dotHeight</label><input id="dotHeight-slider" type="range">
-      <label for="blur-slider">blur</label><input id="blur-slider" type="range">
+      <h1>dot<span class="dot">.</span>css</h1>
+      <label for="crossfade-slider">crossfade</label>
+      <input id="crossfade-slider" type="range" min="0" max="100" value="0">
+      <label for="pixelate-slider">pixelate</label>
+      <input id="pixelate-slider" type="range" min="0" max="100" value="10">
+      <label for="blur-slider">blur</label>
+      <input id="blur-slider" type="range" min="0" max="50" value="0">
+      <label for="subpixel-rendering-switch">subpixel rendering<input id="subpixel-rendering-switch" type="checkbox" checked="checked"></label>
     </header>
     <main>
       <div id="source">
-        <!--<img id="source-image" src="./assets/prismacolor-256x256.png">-->
+        <img id="source-image" src="./assets/prismacolor-256x256.png">
         <!--<img id="source-image" src="./assets/crayons-256x256.png">-->
-        <img id="source-image" src="./assets/canvas-stand-489x500.jpg">
+        <!--<img id="source-image" src="./assets/canvas-stand-489x500.jpg">-->
         <!--<img id="source-image" src="./assets/canvas-stand-888x864.jpg">-->
       </div>
       <div id="target">
         <div id="paper"></div>
       </div>
     </main>
+
     <script src="./src/lib.js"></script>
     <script src="./src/app.js"></script>
   </body>
