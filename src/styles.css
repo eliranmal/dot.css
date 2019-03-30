@@ -74,7 +74,7 @@ input[type=checkbox] {
   outline: 0 none;
   border-radius: 50%;
   text-align: center;
-  font: bold 20px/32px "Courier New", monospace;
+  font: bold 18px/32px "Courier New", monospace;
   color: #3f3f3f;
   background-color: deeppink;
   cursor: pointer;
@@ -85,12 +85,12 @@ input[type=checkbox]:hover {
 }
 
 input[type=checkbox]:after {
-  content: '\2718';
+  content: "\2718";
   display: inline-block;
 }
 
 input[type=checkbox]:checked:after {
-  content: '\2714';
+  content: "\2714";
 }
 
 
@@ -109,11 +109,11 @@ input[type="checkbox"].close:checked {
 }
 
 input[type="checkbox"].close:after {
-  content: '\2716';
+  content: "\2715";
 }
 
 input[type="checkbox"].close:checked:after {
-  content: '\2022';
+  content: "\2022";
 }
 
 input[type="checkbox"].close:checked + header {
@@ -246,9 +246,9 @@ input[id$="-slider"]:after {
 }
 
 #crossfade-slider:before {
-  content: 'input';
+  content: "input";
 }
 
 #crossfade-slider:after {
-  content: 'output';
+  content: "output";
 }

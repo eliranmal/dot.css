@@ -39,10 +39,21 @@
     paint();
   });
 
+  bindDebounced(sliders.zoom, 'input', ({ target: { value } }) => {
+    zoom(value);
+  });
+
   sliders.crossfade.setAttribute('disabled', 'disabled');
+
+  zoom(sliders.zoom.value);
 
   paint();
 
+
+  function zoom(value) {
+    const zoom = Number(value).toFixed(3);
+    paper.style.setProperty('transform', `scale(${zoom})`);
+  }
 
   function paint() {
 
