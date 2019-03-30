@@ -21,10 +21,18 @@
       pixelatePerc <= 100;
 
     if (isPixelatePercValid) {
-      const logX = percentageAsLogarithmicMirrored(image.width, pixelatePerc);
-      const logY = percentageAsLogarithmicMirrored(image.height, pixelatePerc);
-      pixelNumX = Math.ceil(logX);
-      pixelNumY = Math.ceil(logY);
+      let logX = percentageAsLogarithmicMirrored(image.width, pixelatePerc);
+      let logY = percentageAsLogarithmicMirrored(image.height, pixelatePerc);
+      if (logX < 1) {
+        pixelNumX = 1;
+      } else {
+        pixelNumX = Math.ceil(logX);
+      }
+      if (logY < 1) {
+        pixelNumY = 1;
+      } else {
+        pixelNumY = Math.ceil(logY);
+      }
       if (noSubpixelRendering) {
         pixelWidth = (image.width - image.width % pixelNumX) / pixelNumX;
         pixelHeight = (image.height - image.height % pixelNumY) / pixelNumY;
