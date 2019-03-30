@@ -1,5 +1,6 @@
 (function (d, ns) {
 
+  const main = d.getElementById('main');
   const img = d.getElementById('source-image');
   const paper = d.getElementById('paper');
   const source = d.getElementById('source');
@@ -52,7 +53,7 @@
 
   function zoom(value) {
     const zoom = Number(value).toFixed(3);
-    paper.style.setProperty('transform', `scale(${zoom})`);
+    main.style.setProperty('transform', `scale(${zoom})`);
   }
 
   function paint() {
