@@ -210,15 +210,15 @@ main {
   background-color: #3f3f3f;
 }
 
-#source,
-#paper {
-  box-shadow: 2px 0 22px #000;
-}
-
 #source {
   z-index: 1;
   justify-content: flex-start;
   overflow: hidden;
+  border-right: 2px dashed #3f3f3f;
+}
+
+#target {
+  box-shadow: 2px 0 22px #000;
 }
 
 input[id$="-slider"] {
