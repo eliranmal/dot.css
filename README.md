@@ -2,7 +2,8 @@
 
 > render images with box-shadow pixels!
 
-_**[live][1]**_
+
+_**[eliranmal.github.io/dot.css][1]**_
 
 
 ### wat
