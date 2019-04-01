@@ -9,7 +9,7 @@
 }
 
 html {
-  font-size: 30px;
+  font-size: 32px;
 }
 
 html,
@@ -31,35 +31,97 @@ header {
 body,
 h1,
 button,
+select,
 input {
   font: 1rem consolas, courier, monospace;
 }
 
 body,
-button {
+button,
+select {
   color: #ccc;
   background-color: #555;
 }
 
-button {
+button,
+select {
   padding: 0 1em;
   border: 0 none;
   outline: 0 none;
+  border-radius: 0;
   cursor: pointer;
 }
 
-label {
-  font-size: .7rem;
+select {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  line-height: 1.5rem;
+  font-size: .5rem;
+  font-weight: bold;
+
+  /* fake arrow */
+  background-image:
+    linear-gradient(50deg, transparent 50%, #3f3f3f 50%),
+    linear-gradient(130deg, #3f3f3f 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) 50%,
+    calc(100% - 14px) 50%;
+  background-size:
+    6px 6px,
+    6px 6px;
+  background-repeat: no-repeat;
 }
 
-input:disabled {
+select:hover {
+  background-image:
+    linear-gradient(50deg, transparent 50%, deeppink 50%),
+    linear-gradient(130deg, deeppink 50%, transparent 50%);
+}
+
+label {
+  font-size: .5rem;
+}
+
+input:disabled,
+select:disabled,
+button:disabled {
   opacity: .3;
   cursor: not-allowed;
 }
 
 input[type="range"] {
+  position: relative;
+  margin-bottom: .5rem;
   cursor: pointer;
-  transition: opacity 1s;
+  transition: opacity .5s;
+}
+
+input[type="range"]:before,
+input[type="range"]:after {
+  position: absolute;
+  top: calc(.5rem + 10px);
+  line-height: 0;
+  font-size: .4rem;
+  color: #aaa;
+}
+
+input[type="range"]:before {
+  content: attr(min);
+  left: 0;
+}
+
+input[type="range"]:after {
+  content: attr(max);
+  right: 0;
+}
+
+input[type="range"].percentage:before {
+  content: attr(min) '%';
+}
+
+input[type="range"].percentage:after {
+  content: attr(max) '%';
 }
 
 input[type=checkbox] {
@@ -146,10 +208,11 @@ header {
 }
 
 header label,
-header input {
+header input,
+header select {
   display: block;
   width: 100%;
-  margin: 0 0 40px;
+  margin: 0 0 .5rem;
 }
 
 header :last-child {
@@ -167,15 +230,16 @@ header button {
   box-shadow: 0 1px 16px #000;
 }
 
-header input {
-  margin-bottom: 10px;
+header select {
+  color: #3f3f3f;
+  background-color: #ccc;
 }
 
 header label {
   position: relative;
   height: 60px;
   line-height: 60px;
-  margin: 0;
+  margin: .75rem 0 0;
 }
 
 header label input[type="checkbox"] {
@@ -217,35 +281,18 @@ main {
   z-index: 1;
   justify-content: flex-start;
   overflow: hidden;
+}
+
+#source:after {
+  content: "";
+  position: absolute;
+  right: 0;
+  height: 100%;
   border-right: 2px dashed #3f3f3f;
 }
 
 #target {
   box-shadow: 2px 0 22px #000;
-}
-
-input[id$="-slider"] {
-  position: relative;
-  margin-bottom: 1rem;
-}
-
-input[id$="-slider"]:before,
-input[id$="-slider"]:after {
-  position: absolute;
-  top: 1rem;
-  line-height: 0;
-  font-size: .4rem;
-  color: #aaa;
-}
-
-input[id$="-slider"]:before {
-  content: attr(min);
-  left: 0;
-}
-
-input[id$="-slider"]:after {
-  content: attr(max);
-  right: 0;
 }
 
 #crossfade-slider:before {

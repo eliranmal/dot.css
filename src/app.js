@@ -1,38 +1,53 @@
 (function (d, ns) {
 
-  const main = d.getElementById('main');
+  const imgSelect = d.getElementById('source-image-select');
   const img = d.getElementById('source-image');
   const paper = d.getElementById('paper');
   const source = d.getElementById('source');
+  const target = d.getElementById('target');
   const subpixelRenderingSwitch = d.getElementById('subpixel-rendering-switch');
-  const sliders = [...d.querySelectorAll('input[type="range"]')]
-    .reduce((accum, node) => {
-      accum[node.id.replace('-slider', '')] = node;
-      return accum;
-    }, {});
+  const sliders = [...d.querySelectorAll('input[type="range"]')];
 
-  const painter = ns.painter(img, paper);
-  const sourceBBox = source.getBoundingClientRect();
+  const sliderMap = sliders.reduce((accum, node) => {
+    accum[node.id.replace('-slider', '')] = node;
+    return accum;
+  }, {});
+
 
   let painted = false,
-    pixelate = sliders.pixelate.value,
-    blur = sliders.blur.value,
+    painter = ns.painter(img, paper),
+    imgBBox = img.getBoundingClientRect(),
+    crossfadePerc = asNumber(sliderMap.crossfade.value),
+    zoomLevel = asNumber(sliderMap.zoom.value),
+    pixelate = sliderMap.pixelate.value,
+    blur = sliderMap.blur.value,
     noSubpixelRendering = !subpixelRenderingSwitch.checked;
 
-  bindDebounced(sliders.crossfade, 'input', ({ target: { value } }) => {
-    const width = sourceBBox.width / 100 * value;
-    source.style.width = `${width}px`;
-    source.style.marginLeft = `${(sourceBBox.width - width) / 2 * -1}px`;
+
+  loadSourceImage(imgSelect.value);
+
+  bind(imgSelect, 'change', ({ target: { value } }) => {
+    loadSourceImage(value);
+  });
+
+  bindDebounced(sliderMap.crossfade, 'input', ({ target: { value } }) => {
+    crossfadePerc = asNumber(value);
+    crossfade();
   }, 10);
 
-  bindDebounced(sliders.pixelate, 'input', ({ target: { value } }) => {
+  bindDebounced(sliderMap.pixelate, 'input', ({ target: { value } }) => {
     pixelate = value;
     paint();
   });
 
-  bindDebounced(sliders.blur, 'input', ({ target: { value } }) => {
+  bindDebounced(sliderMap.blur, 'input', ({ target: { value } }) => {
     blur = value;
     paint();
+  });
+
+  bindDebounced(sliderMap.zoom, 'input', ({ target: { value } }) => {
+    zoomLevel = asNumber(value);
+    zoom();
   });
 
   bind(subpixelRenderingSwitch, 'change', ({ target: { checked } }) => {
@@ -40,21 +55,12 @@
     paint();
   });
 
-  bindDebounced(sliders.zoom, 'input', ({ target: { value } }) => {
-    zoom(value);
-  });
+  sliderMap.crossfade.setAttribute('disabled', 'disabled');
 
-  sliders.crossfade.setAttribute('disabled', 'disabled');
-
-  zoom(sliders.zoom.value);
+  sliderMap.zoom.dispatchEvent(new Event('input'));
 
   paint();
 
-
-  function zoom(value) {
-    const zoom = Number(value).toFixed(3);
-    main.style.setProperty('transform', `scale(${zoom})`);
-  }
 
   function paint() {
 
@@ -66,10 +72,46 @@
 
     if (!painted) {
       painted = true;
-      sliders.crossfade.removeAttribute('disabled');
+      sliderMap.crossfade.removeAttribute('disabled');
     }
     // trigger a change to hide the source image
-    sliders.crossfade.dispatchEvent(new Event('input'));
+    sliderMap.crossfade.dispatchEvent(new Event('input'));
+  }
+
+  function loadSourceImage(url) {
+    img.onload = () => {
+      imgBBox = img.getBoundingClientRect();
+      painter = ns.painter(img, paper);
+      paint();
+    };
+    img.src = url;
+  }
+
+  function zoom() {
+    if (typeof zoomLevel !== 'number') {
+      return;
+    }
+    [source, target]
+      .forEach(el => {
+        el.style.setProperty('transform', `scale(${zoomLevel},${zoomLevel})`);
+      });
+    imgBBox = img.getBoundingClientRect();
+    crossfade();
+  }
+
+  function crossfade() {
+    if (typeof crossfadePerc !== 'number') {
+      return;
+    }
+    const boxWidth = imgBBox.width;
+    const width = boxWidth / 100 * crossfadePerc;
+    const marginLeft = (boxWidth - width) / 2 * -1;
+    source.style.width = `${width / zoomLevel}px`;
+    source.style.marginLeft = `${marginLeft}px`;
+  }
+
+  function asNumber(value) {
+    return +Number(value).toFixed(3);
   }
 
   function bind(node, event, fn) {
@@ -85,14 +127,14 @@
   // N milliseconds. If `immediate` is passed, trigger the function on the
   // leading edge, instead of the trailing.
   function debounce(func, wait, immediate) {
-    var timeout;
+    let timeout;
     return function () {
-      var context = this, args = arguments;
-      var later = function () {
+      const context = this, args = arguments;
+      const later = function () {
         timeout = null;
         if (!immediate) func.apply(context, args);
       };
-      var callNow = immediate && !timeout;
+      const callNow = immediate && !timeout;
       clearTimeout(timeout);
       timeout = setTimeout(later, wait);
       if (callNow) func.apply(context, args);
