@@ -5,6 +5,7 @@
   --color-text: #ccc;
   --color-text-complement: #aaa;
   --color-shadow: #030303;
+  /*--sidebar-width: 33vw;*/
   --sidebar-width: 360px;
   --sidebar-width-collapsed: 60px;
   --sidebar-transition: all 120ms ease-out;
