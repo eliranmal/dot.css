@@ -1,7 +1,12 @@
 
 :root {
+  --color-bg: #3f3f3f;
+  --color-bg-complement: #555;
+  --color-text: #ccc;
+  --color-text-complement: #aaa;
+  --color-shadow: #030303;
   --sidebar-width: 360px;
-  --sidebar-width-collapsed: 70px;
+  --sidebar-width-collapsed: 60px;
   --sidebar-transition: all 120ms ease-out;
 }
 
@@ -36,8 +41,17 @@ input {
 body,
 button,
 select {
-  color: #ccc;
-  background-color: #555;
+  color: var(--color-text);
+  background-color: var(--color-bg-complement);
+}
+
+
+select,
+input[type="file"],
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 button,
@@ -50,17 +64,14 @@ select {
 }
 
 select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   line-height: 1.5rem;
   font-size: .5rem;
   font-weight: bold;
 
   /* fake arrow */
   background-image:
-    linear-gradient(50deg, transparent 50%, #3f3f3f 50%),
-    linear-gradient(130deg, #3f3f3f 50%, transparent 50%);
+    linear-gradient(50deg, transparent 50%, var(--color-bg) 50%),
+    linear-gradient(130deg, var(--color-bg) 50%, transparent 50%);
   background-position:
     calc(100% - 20px) 50%,
     calc(100% - 14px) 50%;
@@ -100,7 +111,7 @@ input[type="range"]:after {
   top: calc(.5rem + 10px);
   line-height: 0;
   font-size: .4rem;
-  color: #aaa;
+  color: var(--color-text-complement);
 }
 
 input[type="range"]:before {
@@ -121,10 +132,7 @@ input[type="range"].percentage:after {
   content: attr(max) '%';
 }
 
-input[type=checkbox] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+.icon-button {
   display: inline-block;
   width: 30px;
   height: 30px;
@@ -134,59 +142,73 @@ input[type=checkbox] {
   border-radius: 50%;
   text-align: center;
   font: bold 18px/32px "Courier New", monospace;
-  color: #3f3f3f;
+  color: var(--color-bg);
   background-color: deeppink;
   cursor: pointer;
 }
 
-input[type=checkbox]:hover {
-  color: #ccc;
+.icon-button:hover {
+  color: var(--color-text);
 }
 
-input[type=checkbox]:after {
+input[type="file"] {
+  /* hide everything - we style the wrapping labels instead */
+  pointer-events: none;
+  position: absolute;
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+  border: 0 none;
+  outline: 0 none;
+  opacity: 0;
+}
+
+input[type="checkbox"].icon-button:after {
   content: "\2718";
   display: inline-block;
 }
 
-input[type=checkbox]:checked:after {
+input[type="checkbox"].icon-button:checked:after {
   content: "\2714";
 }
 
 
 /* layout */
 
-input[type="checkbox"].close {
+input[type="checkbox"].icon-button.close {
   position: absolute;
   z-index: 3;
-  top: 20px;
-  left: calc(var(--sidebar-width) - 50px);
+  top: 15px;
+  left: calc(var(--sidebar-width) - 45px);
   transition: var(--sidebar-transition);
 }
 
-input[type="checkbox"].close:checked {
-  left: 20px;
+input[type="checkbox"].icon-button.close:checked {
+  left: 15px;
 }
 
-input[type="checkbox"].close:after {
+input[type="checkbox"].icon-button.close:after {
   content: "\2715";
 }
 
-input[type="checkbox"].close:checked:after {
+input[type="checkbox"].icon-button.close:checked:after {
   content: "\2022";
 }
 
-input[type="checkbox"].close:checked + header {
+input[type="checkbox"].icon-button.close:checked + header {
   left: 0;
   overflow: hidden;
   width: var(--sidebar-width-collapsed);
   min-width: var(--sidebar-width-collapsed);
+  padding: 0;
 }
 
-input[type="checkbox"].close:checked + header > * {
+input[type="checkbox"].icon-button.close:checked + header > * {
   opacity: 0;
 }
 
-input[type="checkbox"].close:checked + header + main {
+input[type="checkbox"].icon-button.close:checked + header + main {
   margin-left: var(--sidebar-width-collapsed);
 }
 
@@ -200,9 +222,13 @@ header {
   padding: 35px;
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
+  background-color: var(--color-bg);
+  box-shadow: 2px 0 22px var(--color-shadow);
+}
+
+header,
+header > * {
   transition: var(--sidebar-transition);
-  background-color: #3f3f3f;
-  box-shadow: 2px 0 22px #000;
 }
 
 header label,
@@ -225,12 +251,12 @@ header button {
 }
 
 header button {
-  box-shadow: 0 1px 16px #000;
+  box-shadow: 0 1px 16px var(--color-shadow);
 }
 
 header select {
-  color: #3f3f3f;
-  background-color: #ccc;
+  color: var(--color-bg);
+  background-color: var(--color-text);
 }
 
 header label {
@@ -240,7 +266,20 @@ header label {
   margin: .75rem 0 0;
 }
 
-header label input[type="checkbox"] {
+header label[for="source-image-select"] {
+  pointer-events: none;
+}
+
+header label[for="source-image-file"] {
+  float: right;
+  margin-top: .5rem;
+}
+
+header label[for="source-image-file"]:after {
+  content: "\2b06";
+}
+
+header label .icon-button {
   position: absolute;
   top: 15px;
   right: 0;
@@ -272,7 +311,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3f3f3f;
+  background-color: var(--color-bg);
 }
 
 #source {
@@ -286,11 +325,12 @@ main {
   position: absolute;
   right: 0;
   height: 100%;
-  border-right: 2px dashed #3f3f3f;
+  border-right: 1px dotted var(--color-bg);
+  opacity: .5;
 }
 
 #target {
-  box-shadow: 2px 0 22px #000;
+  box-shadow: 2px 0 22px var(--color-shadow);
 }
 
 #crossfade-slider:before {
