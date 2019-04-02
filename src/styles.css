@@ -1,7 +1,12 @@
 
 :root {
+  --color-bg: #3f3f3f;
+  --color-bg-complement: #555;
+  --color-text: #ccc;
+  --color-text-complement: #aaa;
+  --color-shadow: #030303;
   --sidebar-width: 360px;
-  --sidebar-width-collapsed: 50px;
+  --sidebar-width-collapsed: 60px;
   --sidebar-transition: all 120ms ease-out;
 }
 
@@ -36,8 +41,17 @@ input {
 body,
 button,
 select {
-  color: #ccc;
-  background-color: #555;
+  color: var(--color-text);
+  background-color: var(--color-bg-complement);
+}
+
+
+select,
+input[type="file"],
+input[type="checkbox"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
 }
 
 button,
@@ -50,17 +64,14 @@ select {
 }
 
 select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
   line-height: 1.5rem;
   font-size: .5rem;
   font-weight: bold;
 
   /* fake arrow */
   background-image:
-    linear-gradient(50deg, transparent 50%, #3f3f3f 50%),
-    linear-gradient(130deg, #3f3f3f 50%, transparent 50%);
+    linear-gradient(50deg, transparent 50%, var(--color-bg) 50%),
+    linear-gradient(130deg, var(--color-bg) 50%, transparent 50%);
   background-position:
     calc(100% - 20px) 50%,
     calc(100% - 14px) 50%;
@@ -100,7 +111,7 @@ input[type="range"]:after {
   top: calc(.5rem + 10px);
   line-height: 0;
   font-size: .4rem;
-  color: #aaa;
+  color: var(--color-text-complement);
 }
 
 input[type="range"]:before {
@@ -131,20 +142,13 @@ input[type="range"].percentage:after {
   border-radius: 50%;
   text-align: center;
   font: bold 18px/32px "Courier New", monospace;
-  color: #3f3f3f;
+  color: var(--color-bg);
   background-color: deeppink;
   cursor: pointer;
 }
 
 .icon-button:hover {
-  color: #ccc;
-}
-
-input[type="file"],
-input[type="checkbox"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
+  color: var(--color-text);
 }
 
 input[type="file"] {
@@ -197,6 +201,7 @@ input[type="checkbox"].icon-button.close:checked + header {
   overflow: hidden;
   width: var(--sidebar-width-collapsed);
   min-width: var(--sidebar-width-collapsed);
+  padding: 0;
 }
 
 input[type="checkbox"].icon-button.close:checked + header > * {
@@ -214,12 +219,16 @@ header {
   height: 100%;
   overflow-x: hidden;
   overflow-y: auto;
-  padding: 30px;
+  padding: 35px;
   width: var(--sidebar-width);
   min-width: var(--sidebar-width);
+  background-color: var(--color-bg);
+  box-shadow: 2px 0 22px var(--color-shadow);
+}
+
+header,
+header > * {
   transition: var(--sidebar-transition);
-  background-color: #3f3f3f;
-  box-shadow: 2px 0 22px #000;
 }
 
 header label,
@@ -242,12 +251,12 @@ header button {
 }
 
 header button {
-  box-shadow: 0 1px 16px #000;
+  box-shadow: 0 1px 16px var(--color-shadow);
 }
 
 header select {
-  color: #3f3f3f;
-  background-color: #ccc;
+  color: var(--color-bg);
+  background-color: var(--color-text);
 }
 
 header label {
@@ -302,7 +311,7 @@ main {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #3f3f3f;
+  background-color: var(--color-bg);
 }
 
 #source {
@@ -316,12 +325,12 @@ main {
   position: absolute;
   right: 0;
   height: 100%;
-  border-right: 1px dotted #3f3f3f;
+  border-right: 1px dotted var(--color-bg);
   opacity: .5;
 }
 
 #target {
-  box-shadow: 2px 0 22px #000;
+  box-shadow: 2px 0 22px var(--color-shadow);
 }
 
 #crossfade-slider:before {
