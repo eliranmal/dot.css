@@ -1,6 +1,7 @@
 (function (d, ns) {
 
   const imgSelect = d.getElementById('source-image-select');
+  const imgFileInput = d.getElementById('source-image-file');
   const img = d.getElementById('source-image');
   const paper = d.getElementById('paper');
   const source = d.getElementById('source');
@@ -24,10 +25,12 @@
     noSubpixelRendering = !subpixelRenderingSwitch.checked;
 
 
-  loadSourceImage(imgSelect.value);
+  bind(imgSelect, 'change', ({ target: { value: path } }) => {
+    loadImagePath(path);
+  });
 
-  bind(imgSelect, 'change', ({ target: { value } }) => {
-    loadSourceImage(value);
+  bind(imgFileInput, 'change', ({ target: input }) => {
+    loadImageFile(input);
   });
 
   bindDebounced(sliderMap.crossfade, 'input', ({ target: { value } }) => {
@@ -55,6 +58,15 @@
     paint();
   });
 
+  bind(img, 'load', () => {
+    imgBBox = img.getBoundingClientRect();
+    painter = ns.painter(img, paper);
+    paint();
+  });
+
+
+  loadImagePath(imgSelect.value);
+
   sliderMap.crossfade.setAttribute('disabled', 'disabled');
 
   sliderMap.zoom.dispatchEvent(new Event('input'));
@@ -78,13 +90,32 @@
     sliderMap.crossfade.dispatchEvent(new Event('input'));
   }
 
-  function loadSourceImage(url) {
-    img.onload = () => {
-      imgBBox = img.getBoundingClientRect();
-      painter = ns.painter(img, paper);
-      paint();
-    };
+  function loadImagePath(url) {
+    if (!url) {
+      return;
+    }
     img.src = url;
+  }
+
+  function loadImageFile(input) {
+    const files = input.files;
+    if (files.length === 0) {
+      return;
+    }
+    const file = files[0];
+    if (!isValidFile(file)) {
+      return;
+    }
+    img.src = window.URL.createObjectURL(file);
+  }
+
+  function isValidFile(file) {
+    const mbInBytes = 1048576;
+    const maxMb = 1;
+    if (file.size / mbInBytes > maxMb) {
+      return false;
+    }
+    return true;
   }
 
   function zoom() {
