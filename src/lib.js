@@ -57,17 +57,17 @@
       .getImageData(0, 0, pixelNumX, pixelNumY).data;
 
     // todo - work efficiently with the buffer api
-    const rgbValues = chunks(4, pixelData);
+    const rgbaValues = chunks(4, pixelData);
 
     // don't transform to objects, to keep the memory footprint lower
-    const offsetMatrix = rgbValues.map((pixelDatum, i) => ([
+    const offsetMatrix = rgbaValues.map((pixelDatum, i) => ([
       // calc coordinates and add offset to avoid the box-shadow being hidden
       /* x */ (i % pixelNumX) * pixelWidth + pixelWidth,
       /* y */ ((i - (i % pixelNumX)) / pixelNumX) * pixelHeight + pixelHeight,
     ]));
 
     const boxShadow = offsetMatrix
-      .map(([x, y], i) => `${x}px ${y}px ${blur}px rgb(${rgbValues[i].join(',')})`)
+      .map(([x, y], i) => `${x}px ${y}px ${blur}px rgb(${rgbaValues[i].join(',')})`)
       .join(',');
 
     const pixel = createSeedPixel(pixelWidth, pixelHeight, boxShadow);
