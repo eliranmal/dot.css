@@ -3,7 +3,7 @@
 > render images with box-shadow pixels!
 
 
-<br/>_**[eliranmal.github.io/dot.css][1]**_<br/>
+<br/>_**[see it live][1]**_<br/>
 
 
 ### wat
