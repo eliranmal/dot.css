@@ -4,7 +4,7 @@
     pixelate = 0,
     blur = 0,
     // this avoids subpixel issues causing black borders around pixels,
-    // but we lose a guaranteed output image size
+    // but we lose any guarantee for output image size
     noSubpixelRendering = false,
   } = {}) {
 
@@ -57,39 +57,29 @@
       .getImageData(0, 0, pixelNumX, pixelNumY).data;
 
     // todo - work efficiently with the buffer api
-    const chunkedData = chunks(4, pixelData);
-
-    const rgbValues = chunkedData.map(pixelDatum => {
-      if (pixelDatum[3] === 255) {
-        pixelDatum = pixelDatum.subarray(0, 3);
-      }
-      return `rgb(${pixelDatum.join(',')})`;
-    });
+    const rgbValues = chunks(4, pixelData);
 
     // don't transform to objects, to keep the memory footprint lower
-    const offsetMatrix = chunkedData.map((pixelDatum, i) => ([
+    const offsetMatrix = rgbValues.map((pixelDatum, i) => ([
       // calc coordinates and add offset to avoid the box-shadow being hidden
       /* x */ (i % pixelNumX) * pixelWidth + pixelWidth,
       /* y */ ((i - (i % pixelNumX)) / pixelNumX) * pixelHeight + pixelHeight,
     ]));
 
     const boxShadow = offsetMatrix
-      .map((point, i) => `${point[0]}px ${point[1]}px ${blur}px ${rgbValues[i]}`)
+      .map(([x, y], i) => `${x}px ${y}px ${blur}px rgb(${rgbValues[i].join(',')})`)
       .join(',');
 
-    const pixel = createSeedPixelElement(pixelWidth, pixelHeight, boxShadow);
+    const pixel = createSeedPixel(pixelWidth, pixelHeight, boxShadow);
 
-    paper.style.width = `${pixelWidth * pixelNumX}px`;
-    paper.style.height = `${pixelHeight * pixelNumY}px`;
-    paper.innerHTML = '';
-    paper.appendChild(pixel);
+    updatePaper(paper, pixel, pixelWidth * pixelNumX, pixelHeight * pixelNumY);
   }
 
   function painter(image = {}, paper = {}) {
     return paint.bind(null, image, paper);
   }
 
-  function createSeedPixelElement(width, height, boxShadow) {
+  function createSeedPixel(width, height, boxShadow) {
     const pixel = document.createElement('div');
     pixel.style.position = 'relative';
     pixel.style.top = `-${height}px`;
@@ -98,6 +88,13 @@
     pixel.style.height = `${height}px`;
     pixel.style.boxShadow = boxShadow;
     return pixel;
+  }
+
+  function updatePaper(paper, pixel, paperWidth, paperHeight) {
+    paper.style.width = `${paperWidth}px`;
+    paper.style.height = `${paperHeight}px`;
+    paper.innerHTML = '';
+    paper.appendChild(pixel);
   }
 
   function chunks(chunkSize, arr) {
