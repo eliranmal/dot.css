@@ -26,7 +26,7 @@ body {
 }
 
 body,
-header {
+aside {
   box-sizing: border-box;
 }
 
@@ -69,22 +69,18 @@ select {
   font-weight: bold;
 
   /* fake arrow */
-  background-image:
-    linear-gradient(50deg, transparent 50%, var(--color-bg) 50%),
-    linear-gradient(130deg, var(--color-bg) 50%, transparent 50%);
-  background-position:
-    calc(100% - 20px) 50%,
-    calc(100% - 14px) 50%;
-  background-size:
-    6px 6px,
-    6px 6px;
+  background-image: linear-gradient(50deg, transparent 50%, var(--color-bg) 50%),
+  linear-gradient(130deg, var(--color-bg) 50%, transparent 50%);
+  background-position: calc(100% - 20px) 50%,
+  calc(100% - 14px) 50%;
+  background-size: 6px 6px,
+  6px 6px;
   background-repeat: no-repeat;
 }
 
 select:hover {
-  background-image:
-    linear-gradient(50deg, transparent 50%, deeppink 50%),
-    linear-gradient(130deg, deeppink 50%, transparent 50%);
+  background-image: linear-gradient(50deg, transparent 50%, deeppink 50%),
+  linear-gradient(130deg, deeppink 50%, transparent 50%);
 }
 
 label {
@@ -196,7 +192,7 @@ input[type="checkbox"].icon-button.close:checked:after {
   content: "\2022";
 }
 
-input[type="checkbox"].icon-button.close:checked + header {
+input[type="checkbox"].icon-button.close:checked + aside {
   left: 0;
   overflow: hidden;
   width: var(--sidebar-width-collapsed);
@@ -204,16 +200,26 @@ input[type="checkbox"].icon-button.close:checked + header {
   padding: 0;
 }
 
-input[type="checkbox"].icon-button.close:checked + header > * {
+input[type="checkbox"].icon-button.close:checked + aside > * {
   opacity: 0;
 }
 
-input[type="checkbox"].icon-button.close:checked + header + main {
+input[type="checkbox"].icon-button.close:checked + aside + main {
   margin-left: var(--sidebar-width-collapsed);
 }
 
+main {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  margin-left: var(--sidebar-width);
+  transition: var(--sidebar-transition);
+}
 
-header {
+aside {
   position: absolute;
   z-index: 2;
   height: 100%;
@@ -226,75 +232,64 @@ header {
   box-shadow: 2px 0 22px var(--color-shadow);
 }
 
-header,
-header > * {
+aside,
+aside > * {
   transition: var(--sidebar-transition);
 }
 
-header label,
-header input,
-header select {
+aside label,
+aside input,
+aside select {
   display: block;
   width: 100%;
   margin: 0 0 .5rem;
 }
 
-header :last-child {
+aside :last-child {
   margin-bottom: 0;
 }
 
-header h1,
-header button {
+aside h1,
+aside button {
   height: 80px;
   line-height: 80px;
-  margin-bottom: 40px;
+  margin-top: .7rem;
+  margin-bottom: .7rem;
 }
 
-header button {
+aside button {
   box-shadow: 0 1px 16px var(--color-shadow);
 }
 
-header select {
+aside select {
   color: var(--color-bg);
   background-color: var(--color-text);
 }
 
-header label {
+aside label {
   position: relative;
   height: 60px;
   line-height: 60px;
   margin: .75rem 0 0;
 }
 
-header label[for="source-image-select"] {
+aside label[for="source-image-select"] {
   pointer-events: none;
 }
 
-header label[for="source-image-file"] {
+aside label[for="source-image-file"] {
   float: right;
   margin-top: .5rem;
 }
 
-header label[for="source-image-file"]:after {
+aside label[for="source-image-file"]:after {
   content: "\2b06";
 }
 
-header label .icon-button {
+aside label .icon-button {
   position: absolute;
   top: 15px;
   right: 0;
-}
-
-
-main {
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  margin-left: var(--sidebar-width);
-  transition: var(--sidebar-transition);
 }
 
 /* helpers */
