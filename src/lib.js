@@ -1,6 +1,5 @@
 (function (d, ns) {
 
-  // todo - pass image OR path
   function paint(image, paper, {
     pixelate = 0,
     blur = 0,
