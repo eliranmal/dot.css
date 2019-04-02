@@ -1,9 +1,6 @@
 
 :root {
-  /* fixme - i think i can't do the viewport-width thing with min-width, must state fixed size in width only */
-  /* fixme - how to still state viewport-width and still keep the main content centered? */
-  /*--sidebar-width: 33vw;*/
-  --sidebar-width: 350px;
+  --sidebar-width: 360px;
   --sidebar-width-collapsed: 70px;
   --sidebar-transition: all 120ms ease-out;
 }
@@ -180,6 +177,7 @@ input[type="checkbox"].close:checked:after {
 
 input[type="checkbox"].close:checked + header {
   left: 0;
+  overflow: hidden;
   width: var(--sidebar-width-collapsed);
   min-width: var(--sidebar-width-collapsed);
 }
