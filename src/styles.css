@@ -316,7 +316,8 @@ main {
   position: absolute;
   right: 0;
   height: 100%;
-  border-right: 2px dashed #3f3f3f;
+  border-right: 1px dotted #3f3f3f;
+  opacity: .5;
 }
 
 #target {
